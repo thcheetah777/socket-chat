@@ -11,8 +11,26 @@ const webSocketServer = {
 
     const io = new Server(server.httpServer);
 
+    // Methods
+    const getRooms = () => {
+      return [...Array.from(
+        io.sockets.adapter.rooms.keys()
+      ).filter(
+        key => key.startsWith("room")
+      )];
+    }
+
     io.on("connection", socket => {
-      socket.emit("hello", "Hello world 👋");
+      console.log("👋 User connected!", socket.id);
+
+      socket.on("disconnect", () => {
+        console.log("✋ User disconnected!", socket.id);
+      });
+
+      socket.on("chat message", message => {
+        console.log("💬 New message!", message);
+        io.emit("chat message", message);
+      })
     });
   }
 }

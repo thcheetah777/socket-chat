@@ -2,4 +2,10 @@
   import "../global.css";
 </script>
 
-<slot />
+<svelte:head>
+  <title>Socket Chat</title>
+</svelte:head>
+
+<main class="h-screen w-full">
+  <slot />
+</main>
